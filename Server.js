@@ -6,12 +6,38 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+const database = {
+  users: [
+    {
+      id: "123",
+      name: "Gentian",
+      email: "gentian@gmail.com",
+      password: "1234",
+      date: new Date(),
+    },
+    {
+      id: "124",
+      name: "Test",
+      email: "test@gmail.com",
+      password: "qwerty",
+      date: new Date(),
+    },
+  ],
+};
+
 app.get("/", (req, res) => {
-  res.send("Working");
+  res.send(database.users);
 });
 
 app.post("/signin", (req, res) => {
-  res.json("Working");
+  if (
+    req.body.email === database.users[0].email &&
+    req.body.password === database.users[0].password
+  ) {
+    res.json("Working");
+  } else {
+    res.status(404).json("error login in");
+  }
 });
 
 app.post("/register", (req, res) => {
