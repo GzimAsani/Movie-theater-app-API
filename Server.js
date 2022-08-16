@@ -10,15 +10,17 @@ const database = {
   users: [
     {
       id: "123",
-      name: "Gentian",
-      email: "gentian@gmail.com",
-      password: "1234",
+      username: "Test1",
+      name: "Test1",
+      email: "test1@gmail.com",
+      password: "123456",
       date: new Date(),
     },
     {
       id: "124",
-      name: "Test",
-      email: "test@gmail.com",
+      user: "Test2",
+      name: "Test2",
+      email: "test2@gmail.com",
       password: "qwerty",
       date: new Date(),
     },
@@ -29,9 +31,9 @@ app.get("/", (req, res) => {
   res.send(database.users);
 });
 
-app.post("/signin", (req, res) => {
+app.post("/login", (req, res) => {
   if (
-    req.body.email === database.users[0].email &&
+    req.body.username === database.users[0].username &&
     req.body.password === database.users[0].password
   ) {
     res.json("Working");
