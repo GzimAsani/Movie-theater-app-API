@@ -18,7 +18,7 @@ const db = knex({
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("its working");
+  res.send(db.users);
 });
 
 app.get("/:id/movies", (req, res) => {
@@ -36,7 +36,7 @@ app.get("/:id/movies", (req, res) => {
     .catch((err) => res.status(400).json("error getting movie"));
 });
 
-app.get("movies", (req, res) => {
+app.get("/movies", (req, res) => {
   db.select("*")
     .from("movies")
     .then((movie) => {
