@@ -3,37 +3,21 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import knex from "knex";
 import bcrypt, { hash } from "bcrypt";
-import pkg from 'pg';
 
-const { Client } = pkg;
 const app = express();
 app.use(bodyParser.json());
 
-const client = knex({
+
+const db = knex({
+  client: "pg",
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 });
 
-client.connect();
-
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
-});
-
-// const db = knex({
-//   client: "pg",
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: true,
-// });
-
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send(client.users);
+  res.send(db.users);
 });
 
 app.get("/:id/movies", (req, res) => {
@@ -114,7 +98,7 @@ app.post("/login", (req, res) => {
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
   bcrypt.hash(password, 10, function (err, hash) {
-    client.transaction((trx) => {
+    db.transaction((trx) => {
       trx
         .insert({
           hash: hash,
