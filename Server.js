@@ -7,11 +7,12 @@ import bcrypt, { hash } from "bcrypt";
 const app = express();
 app.use(bodyParser.json());
 
-
 const db = knex({
   client: "pg",
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
+  connection: {
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+  },
 });
 
 app.use(cors());
