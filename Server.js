@@ -18,7 +18,62 @@ const db = knex({
   },
 });
 
-app.get('/', (req, res)=> { res.send(db.users) })
+
+app.get("/", (req, res) => {
+  res.send("its working");
+});
+
+app.get("/:id/movies", (req, res) => {
+  const { id } = req.params;
+  db.select("*")
+    .from("movies")
+    .where({ movieid: id })
+    .then((movie) => {
+      if (movie.length) {
+        res.json(movie[0]);
+      } else {
+        res.status(400).json("Movie Not found");
+      }
+    })
+    .catch((err) => res.status(400).json("error getting movie"));
+});
+
+app.get("/movies", (req, res) => {
+  db.select("*")
+    .from("movies")
+    .then((movie) => {
+      res.json(movie);
+    });
+});
+
+app.post("/movies", (req, res) => {
+  const {
+    description,
+    duration,
+    movielanguage,
+    releasedate,
+    country,
+    genre,
+    movieimg,
+    posterimg,
+    title,
+  } = req.body;
+  db.insert({
+    description: description,
+    duration: duration,
+    movielanguage: movielanguage,
+    releasedate: releasedate,
+    country: country,
+    genre: genre,
+    movieimg: movieimg,
+    posterimg: posterimg,
+    Title: title,
+  })
+    .into("movies")
+    .then((user) => {
+      res.json(user[0]);
+    });
+});
 
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
@@ -37,7 +92,7 @@ app.post("/login", (req, res) => {
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
-        res.status(400).json("wrong credentials");
+        res.status(400).json("npm");
       }
     })
     .catch((err) => res.status(400).json("wrong credentials"));
@@ -54,17 +109,17 @@ app.post("/register", (req, res) => {
         })
         .into("login")
         .returning("username")
-        .then(loginUser => {
-          return trx('users')
-            .returning('*')
+        .then((loginUser) => {
+          return trx("users")
+            .returning("*")
             .insert({
               username: loginUser[0].username,
               email: email,
-              joined: new Date()
+              joined: new Date(),
             })
-            .then(user => {
+            .then((user) => {
               res.json(user[0]);
-            })
+            });
         })
         .then(trx.commit)
         .catch(trx.rollback);
@@ -76,23 +131,16 @@ app.get("/profile/:id", (req, res) => {
   const { id } = req.params;
   db.select("*")
     .from("users")
-    .where({
-      id: id,
-    })
+    .where({ id })
     .then((user) => {
+      console.log(user);
       if (user.length) {
         res.json(user[0]);
       } else {
         res.status(400).json("Not found");
       }
-    });
+    })
+    .catch((err) => res.status(400).json("error getting user"));
 });
 
 app.listen(3000);
-
-//  QITO JON PATH QE DUHET ME I KRIJU E TANI ME I LIDH ME FRONT-END
-//  BONE NIHER NPM INSTALL PER ME I INSTALU KTO dependencies QKA NA VYN
-// /signin --> POST success/fail
-// /register --> POST = user
-// /profile/:userID --> GET = user
-// /dashboard --> GET = admin
