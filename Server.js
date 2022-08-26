@@ -17,11 +17,11 @@ const db = knex({
 });
 app.use(cors());
 
-app.get("https://hidden-lowlands-43310.herokuapp.com//", (req, res) => {
+app.get("https://hidden-lowlands-43310.herokuapp.com/", (req, res) => {
   res.send("its working");
 });
 
-app.get("https://hidden-lowlands-43310.herokuapp.com//:id/movies", (req, res) => {
+app.get("https://hidden-lowlands-43310.herokuapp.com/:id/movies", (req, res) => {
   const { id } = req.params;
   db.select("*")
     .from("movies")
@@ -36,7 +36,7 @@ app.get("https://hidden-lowlands-43310.herokuapp.com//:id/movies", (req, res) =>
     .catch((err) => res.status(400).json("error getting movie"));
 });
 
-app.get("https://hidden-lowlands-43310.herokuapp.com//movies", (req, res) => {
+app.get("https://hidden-lowlands-43310.herokuapp.com/movies", (req, res) => {
   db.select("*")
     .from("movies")
     .then((movie) => {
@@ -44,7 +44,7 @@ app.get("https://hidden-lowlands-43310.herokuapp.com//movies", (req, res) => {
     });
 });
 
-app.post("https://hidden-lowlands-43310.herokuapp.com//movies", (req, res) => {
+app.post("https://hidden-lowlands-43310.herokuapp.com/movies", (req, res) => {
   const {
     description,
     duration,
@@ -73,7 +73,7 @@ app.post("https://hidden-lowlands-43310.herokuapp.com//movies", (req, res) => {
     });
 });
 
-app.post("https://hidden-lowlands-43310.herokuapp.com//login", (req, res) => {
+app.post("https://hidden-lowlands-43310.herokuapp.com/login", (req, res) => {
   const { username, password } = req.body;
   db.select("username", "hash")
     .from("login")
@@ -96,7 +96,7 @@ app.post("https://hidden-lowlands-43310.herokuapp.com//login", (req, res) => {
     .catch((err) => res.status(400).json("wrong credentials"));
 });
 
-app.post("https://hidden-lowlands-43310.herokuapp.com//register", (req, res) => {
+app.post("https://hidden-lowlands-43310.herokuapp.com/register", (req, res) => {
   const { username, email, password } = req.body;
   bcrypt.hash(password, 10, function (err, hash) {
     db.transaction((trx) => {
@@ -125,7 +125,7 @@ app.post("https://hidden-lowlands-43310.herokuapp.com//register", (req, res) => 
   });
 });
 
-app.get("https://hidden-lowlands-43310.herokuapp.com//profile/:id", (req, res) => {
+app.get("https://hidden-lowlands-43310.herokuapp.com/profile/:id", (req, res) => {
   const { id } = req.params;
   db.select("*")
     .from("users")
