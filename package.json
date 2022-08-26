@@ -5,7 +5,8 @@
   "description": "",
   "main": "Server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node fileName.js",
+    "start:dev": "nodemon fileName.js"
   },
   "repository": {
     "type": "git",
