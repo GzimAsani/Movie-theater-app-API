@@ -16,7 +16,7 @@ const db = knex({
   }
 });
 
-db.connect();
+client.connect();
 app.use(cors());
 
 app.get("/", (req, res) => {
