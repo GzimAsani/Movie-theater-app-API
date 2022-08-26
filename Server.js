@@ -9,19 +9,19 @@ const { Client } = pkg;
 const app = express();
 app.use(bodyParser.json());
 
-const pkg = knex({
+const client = knex({
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 });
 
-pkg.connect();
+client.connect();
 
-pkg.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
     console.log(JSON.stringify(row));
   }
-  pkg.end();
+  client.end();
 });
 
 // const db = knex({
@@ -33,7 +33,7 @@ pkg.query('SELECT table_schema,table_name FROM information_schema.tables;', (err
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send(pkg.users);
+  res.send(client.users);
 });
 
 app.get("/:id/movies", (req, res) => {
@@ -114,7 +114,7 @@ app.post("/login", (req, res) => {
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
   bcrypt.hash(password, 10, function (err, hash) {
-    pkg.transaction((trx) => {
+    client.transaction((trx) => {
       trx
         .insert({
           hash: hash,
