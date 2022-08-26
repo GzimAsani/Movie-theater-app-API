@@ -6,12 +6,12 @@
   "main": "Server.js",
   "scripts": {
     "dev": "react-scripts start",
-    "start": "node Server.js",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build"
-  },
+    },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GzimAsani/Movie-theater-app-API.git"
