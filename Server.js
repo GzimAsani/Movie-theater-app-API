@@ -8,11 +8,9 @@ import { Client } from "pg";
 const app = express();
 app.use(bodyParser.json());
 
-const client = new Client({
+const client = knex({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: true,
 });
 
 client.connect();
