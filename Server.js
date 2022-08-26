@@ -3,10 +3,10 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import knex from "knex";
 import bcrypt, { hash } from "bcrypt";
+import { Client } from "pg";
 
 const app = express();
 app.use(bodyParser.json());
-const { Client } = require('pg');
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
