@@ -5,8 +5,12 @@
   "description": "",
   "main": "Server.js",
   "scripts": {
-    "start": "node Server.js",
-    "start:dev": "nodemon Server.js"
+    "dev": "react-scripts start",
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -28,6 +32,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "knex": "^2.2.0",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "serve": "^14.0.1"
   }
 }
