@@ -17,7 +17,7 @@ const db = knex({
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("its working");
+  res.send(db.users);
 });
 
 app.get("/:id/movies", (req, res) => {
