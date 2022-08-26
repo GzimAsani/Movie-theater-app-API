@@ -104,10 +104,10 @@ app.post("/register", (req, res) => {
           hash: hash,
           username: username,
         })
-        .into("public.login")
+        .into("login")
         .returning("username")
         .then((loginUser) => {
-          return trx("public.users")
+          return trx("users")
             .returning("*")
             .insert({
               username: loginUser[0].username,
