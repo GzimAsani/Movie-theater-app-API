@@ -101,18 +101,18 @@ app.post("/login", (req, res) => {
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
   bcrypt.hash(password, 10, function (err, hash) {
-    db.transaction((trx) => {
+    db.TRANSACTION((trx) => {
       trx
-        .insert({
+        .INSERT({
           hash: hash,
           username: username,
         })
-        .into("login")
-        .returning("username")
+        .INTO("login")
+        .RETURNING("username")
         .then((loginUser) => {
           return trx("users")
-            .returning("*")
-            .insert({
+            .RETURNING("*")
+            .INSERT({
               username: loginUser[0].username,
               email: email,
               joined: new Date(),
