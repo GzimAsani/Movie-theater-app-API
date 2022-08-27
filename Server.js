@@ -9,11 +9,7 @@ app.use(bodyParser.json());
 
 const db = knex({
   client: "pg",
-  connectionString : process.env.DATABASE_URL,
-  pool : {
-    min: 2,
-    max : 10,
-  }
+  connectionString : process.env.DATABASE_URL
 });
 
 app.use(cors());
