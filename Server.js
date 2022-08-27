@@ -52,8 +52,10 @@ app.post("/movies", (req, res) => {
     movieimg,
     posterimg,
     title,
+    movieid
   } = req.body;
   db.insert({
+    movieid: movieid,
     description: description,
     duration: duration,
     movielanguage: movielanguage,
