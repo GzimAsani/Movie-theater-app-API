@@ -9,7 +9,12 @@ app.use(bodyParser.json());
 
 const db = knex({
   client: "pg",
-  connectionString : process.env.DATABASE_URL
+  connection: {
+    host: "127.0.0.1",
+    user: "postgres",
+    password: "123",
+    database: "movieapp_database",
+  },
 });
 
 app.use(cors());
@@ -52,10 +57,8 @@ app.post("/movies", (req, res) => {
     movieimg,
     posterimg,
     title,
-    movieid
   } = req.body;
   db.insert({
-    movieid: movieid,
     description: description,
     duration: duration,
     movielanguage: movielanguage,
@@ -69,10 +72,12 @@ app.post("/movies", (req, res) => {
     .into("movies")
     .then((user) => {
       res.json(user[0]);
-    }).catch(err => {res.status(400).json("erorr")});
+    })
+    .catch((err) => {
+      res.status(400).json("erorr");
+    });
 });
 
-    
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
   db.select("username", "hash")
