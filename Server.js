@@ -10,10 +10,8 @@ app.use(bodyParser.json());
 const db = knex({
   client: "pg",
   connection: {
-    host: "127.0.0.1",
-    user: "postgres",
-    password: "123",
-    database: "movieapp_database",
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
   },
 });
 
@@ -146,4 +144,6 @@ app.get("/profile/:id", (req, res) => {
     .catch((err) => res.status(400).json("error getting user"));
 });
 
-app.listen(process.env.PORT || 3000,() => {console.log(process.env.PORT)});
+app.listen(process.env.PORT || 3000, () => {
+  console.log(process.env.PORT);
+});
