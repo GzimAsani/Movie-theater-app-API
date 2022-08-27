@@ -146,4 +146,4 @@ app.get("/profile/:id", (req, res) => {
     .catch((err) => res.status(400).json("error getting user"));
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000,() => {console.log(process.env.PORT)});
