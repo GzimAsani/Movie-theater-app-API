@@ -17,9 +17,15 @@ const db = knex({
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send(db.users);
+  res.json(process.env);
+  res.send(process.env);
+  console.log(process.env);
 });
-
+app.get("/test", (req,res) => {
+  res.json(process.env);
+  res.send(process.env);
+  console.log(process.env);
+})
 app.get("/users", (req,res) => {
   db.select("*").from("users").then(user => {
     res.json(user);
