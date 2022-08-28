@@ -131,7 +131,7 @@ app.post("/register", (req, res) => {
         })
         .then(trx.commit)
         .catch(trx.rollback);
-    }).catch((err) => res.status(400).json("unable 2to register",err));
+    }).catch((err) => res.status(400).json("unable to register",err));
   });
 });
 
