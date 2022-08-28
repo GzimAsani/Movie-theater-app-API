@@ -17,9 +17,7 @@ const db = knex({
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.json(process.env);
-  res.send(process.env);
-  console.log(process.env);
+ res.send(db.users);
 });
 app.get("/users", (req,res) => {
   db.select("*").from("users").then(user => {
@@ -72,7 +70,7 @@ app.post("/movies", (req, res) => {
     genre: genre,
     movieimg: movieimg,
     posterimg: posterimg,
-    Title: title,
+    title: title,
   })
     .into("movies")
     .then((user) => {
