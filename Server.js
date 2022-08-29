@@ -19,12 +19,6 @@ app.use(cors());
 app.get("/", (req, res) => {
  res.send(db.users);
 });
-app.get("/users", (req,res) => {
-  db.select("*").from("users").then(user => {
-    res.json(user);
-    console.log(user)
-  }).catch(res.status(400).json("no users"));
-});
 
 app.get("/:id/movies", (req, res) => {
   const { id } = req.params;
