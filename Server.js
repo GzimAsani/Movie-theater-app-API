@@ -99,7 +99,7 @@ app.post("/login", (req, res) => {
           .then((user) => {
             
             const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-            res.json(user[0],{accessToken: accessToken});
+            res.json(user[0],accessToken);
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
