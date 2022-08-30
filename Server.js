@@ -5,7 +5,7 @@ import knex from "knex";
 import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as dotenv from 'dotenv'
-dotenv.config()
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,7 +16,8 @@ const db = knex({
     connectionString: "postgres://njjrdeelxjupud:f3d4cbf4d0ba33a1a24f3ca08d69225d00a133475552816dc2d9bfe8d6d46881@ec2-54-161-255-125.compute-1.amazonaws.com:5432/d7elrjgg32kujo"
   },
 });
-
+const { sign, verify } = jwt;
+dotenv.config()
 app.use(cors());
 
 app.get("/", (req, res) => {
