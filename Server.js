@@ -93,7 +93,7 @@ app.post("/login",authToken, (req, res) => {
           .where("username", "=", req.body.username)
           .then((user) => {
             
-            const accessToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET)
+            const accessToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET, {expiresIn:  "1m"})
             res.json(accessToken);
           })
           .catch((err) => res.status(400).json("unable to get user"));
