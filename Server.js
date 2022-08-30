@@ -17,7 +17,7 @@ const db = knex({
 app.use(cors());
 
 app.get("/", (req, res) => {
-  db.send(users);
+  res.send(db.users);
   // db.select("*")
   // .from("users")
   // .then((movie) => {
