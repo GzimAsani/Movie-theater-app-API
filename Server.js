@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import knex from "knex";
 import bcrypt, { hash } from "bcrypt";
+import { jwt } from "jsonwebtoken";
+require("dotenv").config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -94,6 +96,8 @@ app.post("/login", (req, res) => {
           .where("username", "=", req.body.username)
           .then((user) => {
             res.json(user[0]);
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+            res.json({accessToken: accessToken});
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
