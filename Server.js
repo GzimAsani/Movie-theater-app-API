@@ -22,11 +22,11 @@ app.use(cors());
 
 app.get("/", (req, res) => {
   // res.send(db.users);
-  db.select("*")
-  .from("users")
-  .then((movie) => {
-    res.json(movie);
-  });
+  // db.select("*")
+  // .from("users")
+  // .then((movie) => {
+  //   res.json(movie);
+  // });
 });
 
 app.get("/:id/movies", (req, res) => {
@@ -97,8 +97,7 @@ app.post("/login", (req, res) => {
           .from("users")
           .where("username", "=", req.body.username)
           .then((user) => {
-            const accessToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET)
-            res.json({accessToken: accessToken});
+            res.json(user[0]);
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
