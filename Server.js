@@ -21,12 +21,7 @@ dotenv.config()
 app.use(cors());
 
 app.get("/", (req, res) => {
-  // res.send(db.users);
-  // db.select("*")
-  // .from("users")
-  // .then((movie) => {
-  //   res.json(movie);
-  // });
+  res.send(db.users);
 });
 
 app.get("/:id/movies", (req, res) => {
