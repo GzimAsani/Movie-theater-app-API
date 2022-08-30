@@ -17,11 +17,12 @@ const db = knex({
 app.use(cors());
 
 app.get("/", (req, res) => {
-  db.select("*")
-  .from("users")
-  .then((movie) => {
-    res.json(movie);
-  });
+  db.send(users);
+  // db.select("*")
+  // .from("users")
+  // .then((movie) => {
+  //   res.json(movie);
+  // });
 });
 
 app.get("/:id/movies", (req, res) => {
