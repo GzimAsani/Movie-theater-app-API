@@ -4,7 +4,8 @@ import cors from "cors";
 import knex from "knex";
 import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
-require("dotenv").config();
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const app = express();
 app.use(bodyParser.json());
