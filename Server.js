@@ -79,7 +79,7 @@ app.post("/movies", (req, res) => {
     });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login",authToken, (req, res) => {
   const { username, password } = req.body;
   db.select("username", "hash")
     .from("login")
@@ -93,7 +93,7 @@ app.post("/login", (req, res) => {
           .where("username", "=", req.body.username)
           .then((user) => {
             const accessToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET)
-            res.json({accessToken: accessToken},user[0]);
+            res.json({accessToken: accessToken});
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
@@ -102,6 +102,17 @@ app.post("/login", (req, res) => {
     })
     .catch((err) => res.status(400).json("wrong credentials"));
 });
+
+function authToken(req,res,next){
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token === null) return res.status(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user) => {
+    req.user =user;
+    next();
+  })
+}
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
