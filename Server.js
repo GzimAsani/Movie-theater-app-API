@@ -92,13 +92,14 @@ app.post("/login",authToken, (req, res) => {
           .from("users")
           .where("username", "=", req.body.username)
           .then((user) => {
-            res.json(user[0]);
+            
             const accessToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET)
+            res.json(user[0]);
             res.json(accessToken);
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
-        res.status(400).json("wrong credentials");
+        res.status(400).json("wrong credentials.");
       }
     })
     .catch((err) => res.status(400).json("wrong credentials"));
