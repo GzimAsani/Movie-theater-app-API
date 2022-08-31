@@ -94,9 +94,9 @@ app.post("/login",authToken, (req, res) => {
           .from("users")
           .where("username", "=", req.body.username)
           .then((user) => {
-            const accessToken = generateAccessToken(user[0]);
+            const accessToken = generateAccessToken(user);
             const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
-            res.json({username, accessToken,refreshToken});
+            res.json({accessToken,refreshToken});
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
