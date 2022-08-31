@@ -94,7 +94,7 @@ app.post("/login",authToken, (req, res) => {
           .from("users")
           .where("username", "=", req.body.username)
           .then((user) => {
-            const accessToken = generateAccessToken(user[0]);
+            const accessToken = generateAccessToken(user);
             const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
             res.json({username, accessToken,refreshToken});
           })
@@ -107,7 +107,7 @@ app.post("/login",authToken, (req, res) => {
 });
 
 function generateAccessToken(user) {
-  return jwt.sign({user: {username}}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15s"})
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15s"})
 }
 
 function authToken(req,res,next){
