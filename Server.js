@@ -10,6 +10,8 @@ import * as dotenv from 'dotenv'
 const app = express();
 app.use(bodyParser.json());
 
+
+
 const db = knex({
   client: "pg",
   connection: {
