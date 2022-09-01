@@ -4,10 +4,12 @@ import cors from "cors";
 import knex from "knex";
 import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 import * as dotenv from 'dotenv'
 
 
 const app = express();
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 
@@ -95,7 +97,7 @@ app.post("/login",authToken, (req, res) => {
           .where("username", "=", req.body.username)
           .then((user) => {
             const accessToken = jwt.sign({user: {username}}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15s"})
-            res.json({username, accessToken});
+            res.cookie("access_token",accessToken,{httpOnly:true,}).json({username, accessToken});
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
