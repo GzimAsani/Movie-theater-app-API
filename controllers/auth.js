@@ -12,7 +12,7 @@ export const register = (db, bcrypt) => async (req, res, next) => {
         .into("login")
         .returning("username")
         .then((loginUser) => {
-          return trx("user1")
+          return trx("users")
             .returning("*")
             .insert({
               username: loginUser[0].username,
@@ -39,7 +39,7 @@ export const login = (db, bcrypt) => async (req, res, next) => {
       if (isValid) {
         return db
           .select("*")
-          .from("user1")
+          .from("users")
           .where("username", "=", req.body.username)
           .then((user) => {
             const id = user[0].id;

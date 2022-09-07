@@ -1,6 +1,6 @@
 export const updateUser = (db) => async (req, res, next) => {
     const { id } = req.params;
-    db("user1")
+    db("users")
       .where({ id: id })
       .update(req.body)
       .returning("*")
@@ -17,7 +17,7 @@ export const updateUser = (db) => async (req, res, next) => {
   export const deleteUser = (db) => async (req, res, next) => {
     const { id } = req.params;
     try {
-      db("user1")
+      db("users")
         .where({ id: id })
         .del()
         .then(res.status(200).json("User has been deleted"));
@@ -30,7 +30,7 @@ export const updateUser = (db) => async (req, res, next) => {
     const { id } = req.params;
   
     db.select("*")
-      .from("user1")
+      .from("users")
       .where({id: id })
       .then((users) => {
         if (users.length) {
@@ -46,7 +46,7 @@ export const updateUser = (db) => async (req, res, next) => {
   
   export const getUsers = (db) => async (req, res, next) => {
     db.select("*")
-      .from("user1")
+      .from("users")
       .then((users) => {
         res.json(users);
       })
