@@ -3,9 +3,16 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import knex from "knex";
 import bcrypt, { hash } from "bcrypt";
+import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
+import * as dotenv from 'dotenv'
+
 
 const app = express();
+app.use(cookieParser());
 app.use(bodyParser.json());
+
+
 
 const db = knex({
   client: "pg",
@@ -13,17 +20,12 @@ const db = knex({
     connectionString: "postgres://njjrdeelxjupud:f3d4cbf4d0ba33a1a24f3ca08d69225d00a133475552816dc2d9bfe8d6d46881@ec2-54-161-255-125.compute-1.amazonaws.com:5432/d7elrjgg32kujo"
   },
 });
-
+const { sign, verify } = jwt;
+dotenv.config();
 app.use(cors());
 
 app.get("/", (req, res) => {
- res.send(db.users);
-});
-app.get("/users", (req,res) => {
-  db.select("*").from("users").then(user => {
-    res.json(user);
-    console.log(user)
-  }).catch(res.status(400).json("no user"));
+  res.send(db.users);
 });
 
 app.get("/:id/movies", (req, res) => {
@@ -81,7 +83,7 @@ app.post("/movies", (req, res) => {
     });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login",authToken, (req, res) => {
   const { username, password } = req.body;
   db.select("username", "hash")
     .from("login")
@@ -94,15 +96,31 @@ app.post("/login", (req, res) => {
           .from("users")
           .where("username", "=", req.body.username)
           .then((user) => {
-            res.json(user[0]);
+            const accessToken = jwt.sign({user: {username}}, process.env.ACCESS_TOKEN_SECRET)
+            res.cookie("access_token",accessToken,{httpOnly:true,}).json({username, accessToken});
           })
           .catch((err) => res.status(400).json("unable to get user"));
       } else {
-        res.status(400).json("npm");
+        res.status(400).json("wrong credentials.");
       }
     })
     .catch((err) => res.status(400).json("wrong credentials"));
 });
+
+function generateAccessToken(user) {
+  
+}
+
+function authToken(req,res,next){
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token === null) return res.status(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user) => {
+    req.user =user;
+    next();
+  })
+}
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
