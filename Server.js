@@ -22,6 +22,6 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).json( errorMessage );
 });
 
-app.listen(3000, () => {
-  console.log("connected to server");
+app.listen(process.env.PORT || 3000, () => {
+  console.log(process.env.PORT);
 });
