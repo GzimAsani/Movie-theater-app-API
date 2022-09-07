@@ -23,7 +23,7 @@ app.get("/users", (req,res) => {
   db.select("*").from("users").then(user => {
     res.json(user);
     console.log(user)
-  }).catch(res.status(400).json("no users"));
+  }).catch(res.status(400).json("no user"));
 });
 
 app.get("/:id/movies", (req, res) => {
