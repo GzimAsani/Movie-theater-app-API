@@ -8,7 +8,7 @@ export const createMovie = (db) => async (req, res, next) => {
     genre,
     movieimg,
     posterimg,
-    Title,
+    title,
   } = req.body;
 
   db.insert({
@@ -20,7 +20,7 @@ export const createMovie = (db) => async (req, res, next) => {
     genre: genre,
     movieimg: movieimg,
     posterimg: posterimg,
-    Title: Title,
+    title: title,
   })
     .into("movies")
     .returning("*")
